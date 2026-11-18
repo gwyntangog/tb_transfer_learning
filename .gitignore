@@ -1,0 +1,65 @@
+# Datasets stay outside the repo. These rules are a backstop if a copy
+# lands in the workspace (including under OneDrive).
+data/
+datasets/
+raw/
+chexpert/
+CheXpert*/
+TBX11K/
+tbx11k/
+imgs/
+
+# Label files and image archives
+train.csv
+valid.csv
+train_cheXbert.csv
+train_visualCheXbert.csv
+*.jpg
+*.jpeg
+*.png
+*.dcm
+*.dicom
+*.tif
+*.tiff
+*.bmp
+*.gif
+*.JPG
+*.JPEG
+*.PNG
+*.DCM
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.7z
+
+# Extended TBX11K lists and result dumps
+all_*.txt
+
+# Checkpoints and run outputs
+outputs/
+checkpoints/
+runs/
+wandb/
+lightning_logs/
+*.pt
+*.pt.tmp
+*.pth
+*.ckpt
+*.safetensors
+*.tmp
+
+# Secrets. An Azure SAS URL belongs here, never in a commit.
+.env
+*.env
+secrets.txt
+fetch_frontal_pneumonia.py
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.venv/
+venv/
+.Python
