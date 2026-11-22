@@ -14,6 +14,7 @@ import torch
 from tb_transfer.config import ARCHS, PROTOCOL, STAGE_A_FIELDS, STAGE_A_LR
 from tb_transfer.data_chexpert import freeze_patient_split, load_filtered, resolve_image
 from tb_transfer.engine import resolve_device, train_with_retry
+from tb_transfer.evaluate import selection_operating_point
 from tb_transfer.io_utils import write_csv, write_json
 from tb_transfer.models import make_model
 from tb_transfer.reporting import reusable
@@ -98,6 +99,16 @@ def main(argv: list[str] | None = None) -> None:
                 run_name=f"subset {architecture} seed {SUBSET_SEED}",
                 num_workers=args.num_workers,
             )
+            operating = selection_operating_point(
+                model,
+                sel["abs_path"].tolist(),
+                sel["label"].astype(float).tolist(),
+                sel["Path"].tolist(),
+                device=device,
+                batch_size=info["batch_size"],
+                num_workers=args.num_workers,
+                score_path=arch_dir / f"seed_{SUBSET_SEED}_selection_scores.npz",
+            )
             row = {
                 "protocol": PROTOCOL,
                 "variant": "subset",
@@ -109,6 +120,7 @@ def main(argv: list[str] | None = None) -> None:
                 "n_filtered": int(len(filtered)),
                 **counts,
                 **info,
+                **operating,
             }
             write_json(json_path, row)
             del model

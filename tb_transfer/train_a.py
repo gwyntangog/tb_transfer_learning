@@ -27,6 +27,7 @@ from tb_transfer.data_chexpert import (
     load_filtered,
 )
 from tb_transfer.engine import resolve_device, train_with_retry
+from tb_transfer.evaluate import selection_operating_point
 from tb_transfer.io_utils import write_json
 from tb_transfer.models import make_model
 from tb_transfer.reporting import publish_best, refresh_stage_a_csv, reusable
@@ -90,6 +91,16 @@ def main(argv: list[str] | None = None) -> None:
                 run_name=f"{architecture} seed {seed}",
                 num_workers=args.num_workers,
             )
+            operating = selection_operating_point(
+                model,
+                sel_paths,
+                sel_labels,
+                sel["Path"].tolist(),
+                device=device,
+                batch_size=info["batch_size"],
+                num_workers=args.num_workers,
+                score_path=arch_dir / f"seed_{seed}_selection_scores.npz",
+            )
             row = {
                 "protocol": PROTOCOL,
                 "architecture": architecture,
@@ -97,6 +108,7 @@ def main(argv: list[str] | None = None) -> None:
                 "device": str(device),
                 **counts,
                 **info,
+                **operating,
             }
             write_json(json_path, row)
             finished.append(row)

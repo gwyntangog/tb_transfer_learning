@@ -49,6 +49,14 @@ class MetricTests(unittest.TestCase):
         self.assertAlmostEqual(report["fpr_sick"], 1.0)
         self.assertEqual(report["n_val"], 5)
         self.assertEqual(report["n_val_no_sick"], 4)
+        self.assertEqual(report["val_tp"], 1)
+        self.assertEqual(report["val_fn"], 0)
+        self.assertEqual(report["val_fp"], 3)
+        self.assertEqual(report["val_tn"], 1)
+        self.assertAlmostEqual(report["val_sensitivity"], 1.0)
+        self.assertAlmostEqual(report["val_specificity"], 0.25)
+        self.assertAlmostEqual(report["val_specificity_healthy"], 1 / 3)
+        self.assertAlmostEqual(report["val_specificity_sick"], 0.0)
         self.assertAlmostEqual(false_positive_rate([0.2, 0.6], 0.5), 0.5)
 
 

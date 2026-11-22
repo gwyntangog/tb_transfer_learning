@@ -15,9 +15,9 @@ import torch
 
 from tb_transfer.config import ARCHS, PROTOCOL, STAGE_B_FIELDS, STAGE_B_LR, STAGE_B_SEED
 from tb_transfer.data_tbx11k import freeze_holdout, group_counts, load_tbx_split
-from tb_transfer.engine import resolve_device, score_paths, train_with_retry
+from tb_transfer.engine import resolve_device, train_with_retry
+from tb_transfer.evaluate import evaluate_tb_run
 from tb_transfer.io_utils import write_csv, write_json
-from tb_transfer.metrics import val_report, youden_threshold
 from tb_transfer.models import make_model
 from tb_transfer.reporting import reusable
 from tb_transfer.train_b import _parser
@@ -95,27 +95,21 @@ def main(argv: list[str] | None = None) -> None:
                     run_name=f"subset {architecture} {init}",
                     num_workers=args.num_workers,
                 )
-                hold_y, hold_scores = score_paths(
+                def load_val(root=root):
+                    nonlocal val_films
+                    if val_films is None:
+                        val_films = load_tbx_split(root, "val")
+                    return val_films
+
+                report = evaluate_tb_run(
                     model,
-                    hold_paths,
-                    hold_labels,
-                    batch_size=info["batch_size"],
+                    hold,
+                    load_val,
                     device=device,
-                    num_workers=args.num_workers,
-                )
-                threshold = youden_threshold(hold_y, hold_scores)
-                if val_films is None:
-                    val_films = load_tbx_split(root, "val")
-                val_y, val_scores = score_paths(
-                    model,
-                    [film.path for film in val_films],
-                    [film.label for film in val_films],
                     batch_size=info["batch_size"],
-                    device=device,
                     num_workers=args.num_workers,
-                )
-                report = val_report(
-                    val_y, val_scores, [film.group for film in val_films], threshold
+                    hold_score_path=output / "stage_b_subset" / f"{architecture}__{init}_holdout_scores.npz",
+                    val_score_path=output / "stage_b_subset" / f"{architecture}__{init}_val_scores.npz",
                 )
                 row = {
                     "protocol": PROTOCOL,
@@ -125,7 +119,6 @@ def main(argv: list[str] | None = None) -> None:
                     "device": str(device),
                     "n_fit": len(fit),
                     "n_holdout": len(hold),
-                    "threshold": threshold,
                     **info,
                     **report,
                 }
@@ -139,13 +132,23 @@ def main(argv: list[str] | None = None) -> None:
                 row = existing
             rows.append(row)
             write_csv(table, rows, STAGE_B_FIELDS)
-            print(
-                f"Subset {architecture} {init}: val AUPRC {float(row['val_auprc']):.4f}, "
-                f"without sick {float(row['val_auprc_no_sick']):.4f}, "
-                f"FPR healthy {float(row['fpr_healthy']):.4f}, "
-                f"FPR sick {float(row['fpr_sick']):.4f}",
-                flush=True,
-            )
+            if "val_sensitivity" in row:
+                print(
+                    f"Subset {architecture} {init}: val AUPRC {float(row['val_auprc']):.4f}, "
+                    f"sensitivity {float(row['val_sensitivity']):.4f}, "
+                    f"specificity {float(row['val_specificity']):.4f}, "
+                    f"FPR healthy {float(row['fpr_healthy']):.4f}, "
+                    f"FPR sick {float(row['fpr_sick']):.4f}",
+                    flush=True,
+                )
+            else:
+                print(
+                    f"Subset {architecture} {init}: val AUPRC {float(row['val_auprc']):.4f}, "
+                    f"without sick {float(row['val_auprc_no_sick']):.4f}, "
+                    f"FPR healthy {float(row['fpr_healthy']):.4f}, "
+                    f"FPR sick {float(row['fpr_sick']):.4f}",
+                    flush=True,
+                )
     print(f"Wrote {table}")
 
 
