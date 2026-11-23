@@ -1,0 +1,24 @@
+CheXpert train.csv
+Rows in train.csv: 223414
+Frontal: 191027. Lateral: 32387.
+Frontal pneumonia cells: 4675 positive, 1875 negative, 15981 uncertain (-1), 168496 blank.
+Kept cohort (frontal and pneumonia exactly 0 or 1): 6550 films, 5522 patients, 4675 positive, 1875 negative, prevalence 0.7137.
+Films on disk: 6550. Missing: 0.
+
+TBX11K official lists
+train: 6600 films, 600 TB, 3000 healthy, 3000 sick, prevalence 0.0909, on disk 6600, missing 0.
+val: 1800 films, 200 TB, 800 healthy, 800 sick, prevalence 0.1111, on disk 1800, missing 0.
+Directory tb, including active and latent tuberculosis.
+Healthy (health, healthy, or normal) or sick but not tuberculosis.
+all_*.txt files are not read. They mix other collections into the lists.
+
+Definitions used for the tables
+CheXpert positive: frontal film whose Pneumonia cell is 1.
+CheXpert negative: frontal film whose Pneumonia cell is 0.
+Dropped before training: lateral films, Pneumonia -1, and blank Pneumonia.
+TBX11K positive: a film in a tb directory. Active and latent tuberculosis both count.
+TBX11K negative: healthy or sick but not tuberculosis.
+Sensitivity: true positive rate, true positives divided by all positive films.
+Specificity: true negative rate, true negatives divided by all negative films.
+Stage B cutoff: Youden threshold fit on the frozen 10% holdout, then applied to validation.
+Stage A cutoff: Youden threshold on the selection films. Those films also chose the epoch.

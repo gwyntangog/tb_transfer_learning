@@ -1,0 +1,190 @@
+{
+  "chexpert": {
+    "funnel": {
+      "n_rows": 223414,
+      "n_frontal": 191027,
+      "n_lateral": 32387,
+      "frontal_pneumonia_positive": 4675,
+      "frontal_pneumonia_negative": 1875,
+      "frontal_pneumonia_uncertain": 15981,
+      "frontal_pneumonia_blank": 168496
+    },
+    "kept_cohort": {
+      "n_films": 6550,
+      "n_patients": 5522,
+      "n_positive": 4675,
+      "n_negative": 1875,
+      "prevalence": 0.7137404580152672,
+      "films_per_patient": {
+        "min": 1,
+        "median": 1.0,
+        "max": 7,
+        "mean": 1.1861644331763854,
+        "patients_with_more_than_one_film": 773
+      },
+      "n_on_disk": 6550,
+      "n_missing": 0,
+      "sex": {
+        "Male": 3829,
+        "Female": 2721
+      },
+      "age": {
+        "n": 6550,
+        "mean": 61.90732824427481,
+        "std": 18.698754465858972,
+        "min": 18.0,
+        "median": 64.0,
+        "max": 90.0
+      },
+      "ap_pa": {
+        "AP": 4493,
+        "PA": 2056,
+        "LL": 1
+      }
+    },
+    "observations_on_kept_films": {
+      "No Finding": {
+        "positive": 740,
+        "negative": 0,
+        "uncertain": 0,
+        "blank": 5810
+      },
+      "Enlarged Cardiomediastinum": {
+        "positive": 186,
+        "negative": 445,
+        "uncertain": 283,
+        "blank": 5636
+      },
+      "Cardiomegaly": {
+        "positive": 546,
+        "negative": 215,
+        "uncertain": 178,
+        "blank": 5611
+      },
+      "Lung Opacity": {
+        "positive": 3689,
+        "negative": 151,
+        "uncertain": 222,
+        "blank": 2488
+      },
+      "Lung Lesion": {
+        "positive": 402,
+        "negative": 58,
+        "uncertain": 61,
+        "blank": 6029
+      },
+      "Edema": {
+        "positive": 1283,
+        "negative": 483,
+        "uncertain": 525,
+        "blank": 4259
+      },
+      "Consolidation": {
+        "positive": 826,
+        "negative": 451,
+        "uncertain": 473,
+        "blank": 4800
+      },
+      "Pneumonia": {
+        "positive": 4675,
+        "negative": 1875,
+        "uncertain": 0,
+        "blank": 0
+      },
+      "Atelectasis": {
+        "positive": 652,
+        "negative": 45,
+        "uncertain": 740,
+        "blank": 5113
+      },
+      "Pneumothorax": {
+        "positive": 142,
+        "negative": 647,
+        "uncertain": 27,
+        "blank": 5734
+      },
+      "Pleural Effusion": {
+        "positive": 1580,
+        "negative": 574,
+        "uncertain": 256,
+        "blank": 4140
+      },
+      "Pleural Other": {
+        "positive": 114,
+        "negative": 18,
+        "uncertain": 62,
+        "blank": 6356
+      },
+      "Fracture": {
+        "positive": 170,
+        "negative": 30,
+        "uncertain": 8,
+        "blank": 6342
+      },
+      "Support Devices": {
+        "positive": 2017,
+        "negative": 126,
+        "uncertain": 15,
+        "blank": 4392
+      }
+    },
+    "image_sizes": {
+      "n": 6550,
+      "width_min": 1549,
+      "width_median": 2828.0,
+      "width_max": 4240,
+      "height_min": 1393,
+      "height_median": 2320.0,
+      "height_max": 3730
+    }
+  },
+  "tbx11k": {
+    "splits": {
+      "train": {
+        "n": 6600,
+        "tb": 600,
+        "healthy": 3000,
+        "sick": 3000,
+        "n_positive": 600,
+        "n_negative": 6000,
+        "prevalence": 0.09090909090909091,
+        "n_on_disk": 6600,
+        "n_missing": 0,
+        "list": "/home/gwynt/orcd/pool/tb_data/kagglehub/datasets/usmanshams/tbx-11/versions/1/TBX11K/lists/TBX11K_train.txt",
+        "image_sizes": {
+          "n": 6600,
+          "width_min": 512,
+          "width_median": 512.0,
+          "width_max": 512,
+          "height_min": 512,
+          "height_median": 512.0,
+          "height_max": 512
+        }
+      },
+      "val": {
+        "n": 1800,
+        "tb": 200,
+        "healthy": 800,
+        "sick": 800,
+        "n_positive": 200,
+        "n_negative": 1600,
+        "prevalence": 0.1111111111111111,
+        "n_on_disk": 1800,
+        "n_missing": 0,
+        "list": "/home/gwynt/orcd/pool/tb_data/kagglehub/datasets/usmanshams/tbx-11/versions/1/TBX11K/lists/TBX11K_val.txt",
+        "image_sizes": {
+          "n": 1800,
+          "width_min": 512,
+          "width_median": 512.0,
+          "width_max": 512,
+          "height_min": 512,
+          "height_median": 512.0,
+          "height_max": 512
+        }
+      }
+    },
+    "positive": "Directory tb, including active and latent tuberculosis.",
+    "negative": "Healthy (health, healthy, or normal) or sick but not tuberculosis.",
+    "ignored_lists": "all_*.txt files are not read. They mix other collections into the lists."
+  }
+}
