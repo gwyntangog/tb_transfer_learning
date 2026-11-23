@@ -1,0 +1,4 @@
+architecture,init,seed,epoch,epochs_ran,selection_auprc,batch_size,lr,n_fit,n_sel,n_pos_fit,n_pos_sel,n_patients_fit,n_patients_sel,device,selected
+resnet50,imagenet,0,1,2,0.758583,32,0.000100,1067,113,800,72,975,109,cuda,1
+densenet121,imagenet,0,3,3,0.802762,32,0.000100,1067,113,800,72,975,109,cuda,1
+vit_b_16,imagenet,0,1,2,0.659304,32,0.000100,1067,113,800,72,975,109,cuda,1
